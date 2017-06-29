@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Public Power</string>
+
+
+    <string name="facebook_app_id">177983366071638</string>
+    <string name="fb_login_protocol_scheme">fb177983366071638</string>
+
+    <string name="activity_image_trans">transs</string>
+
+    <!-- <string name="default_web_client_id">177983366071638</string> -->
+
+
+</resources>

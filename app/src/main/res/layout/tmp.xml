@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.daniribalbert.customfontlib.views.CustomFontTextView
+            app:font="Avenir-Medium"
+            android:padding="10dp"
+            android:id="@+id/app"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:textSize="23sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        <LinearLayout
+            android:weightSum="1"
+            android:orientation="vertical"
+            android:id="@+id/login_via"
+            android:layout_width="match_parent"
+            android:layout_height="160dp">
+
+
+            <LinearLayout
+                android:layout_margin="10dp"
+                android:id="@+id/fb_login"
+                android:background="@drawable/rounded_selector"
+                android:weightSum="1"
+                android:orientation="horizontal"
+                android:layout_weight="0.5"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+                <ImageView
+                    android:layout_gravity="center"
+                    android:layout_weight="0.2"
+                    android:padding="10dp"
+                    android:src="@drawable/fb_bb"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+
+
+                <com.daniribalbert.customfontlib.views.CustomFontTextView
+                    app:font="Avenir-Medium"
+                    android:layout_weight="0.6"
+                    android:padding="10dp"
+                     android:textColor="@color/black"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Connect via Facebook"
+                     android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_margin="10dp"
+                android:id="@+id/g_login"
+                android:background="@drawable/rounded_selector"
+                android:weightSum="1"
+                android:orientation="horizontal"
+                android:layout_weight="0.5"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+                <ImageView
+                    android:layout_gravity="center"
+                    android:layout_weight="0.2"
+                    android:padding="10dp"
+                    android:src="@drawable/g_bb"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+
+
+                <com.daniribalbert.customfontlib.views.CustomFontTextView
+                    app:font="Avenir-Medium"
+                    android:layout_weight="0.6"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Connect via Google"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+
+
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</LinearLayout>
