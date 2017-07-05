@@ -40,7 +40,7 @@
 
     </LinearLayout>
 
-    <com.hoptec.sanket.views.SplashView
+    <in.hoptec.ppower.views.SplashView
         android:id="@+id/splash_view"
         android:background="@color/transparent"
         android:layout_width="match_parent"

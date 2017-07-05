@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -61,12 +63,15 @@ import org.json.JSONObject;
 import java.net.URLEncoder;
 import java.util.concurrent.TimeUnit;
 
+import in.hoptec.ppower.utils.Rotate3dAnimation;
 import in.hoptec.ppower.views.SplashView;
+
+import static in.hoptec.ppower.utl.TAG;
 
 public class Splash extends AppCompatActivity {
 
-    private  Context ctx;
-    private  Activity act;
+    private Context ctx;
+    private Activity act;
     private SplashView splashView;
     private View logins;
     private View activity_splash;
@@ -75,116 +80,133 @@ public class Splash extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
+    String phone = null;
 
-    public View fb_login,g_login,m_login;
+    public View fb_login, g_login, m_login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ctx=this;
-        act=this;
-      //  utl.fullScreen(act);
+        ctx = this;
+        act = this;
+        //  utl.fullScreen(act);
         FacebookSdk.sdkInitialize(getApplicationContext());
-        mAuth=FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_splash);
 
         checkPermission();
         utl.setShared(this);
         bindViews();
-	setUpAccent();
+        setUpAccent();
         initAnims();
         initFbLogin();
         initMLogin();
         initGLogin();
 
-                g_login.setOnClickListener(new View.OnClickListener() {
+        g_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                utl.inputDialog(ctx, "Enter Phone ", "", utl.TYPE_PHONE, new utl.InputDialogCallback() {
                     @Override
-                    public void onClick(View view) {
+                    public void onDone(String text) {
+
                         loginViaG();
-                     }
-                });
-                m_login.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        loginViaM();
                     }
                 });
-                fb_login.setOnClickListener(new View.OnClickListener() {
+
+            }
+        });
+        m_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                loginViaM();
+            }
+        });
+        fb_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                utl.inputDialog(ctx, "Enter Phone ", "", utl.TYPE_PHONE, new utl.InputDialogCallback() {
                     @Override
-                    public void onClick(View view) {
+                    public void onDone(String text) {
+
                         loginViaFb();
                     }
                 });
 
 
-
-    }
-
-
-    public static String TAG="Splash";
-
-
-    void bindViews()
-    {
-        splashView=(SplashView)findViewById(R.id.splash_view);
-        app=(TextView)findViewById(R.id.app);
-        logins=  findViewById(R.id.logins);
-
-        g_login=  findViewById(R.id.g_login);
-        m_login=  findViewById(R.id.m_login);
-        fb_login=  findViewById(R.id.fb_login);
-
-        activity_splash=findViewById(R.id.activity_splash);
-    }
-
-    void initAnims()
-    {
-                    splashView.splashAndDisappear(new SplashView.ISplashListener(){
-                        @Override
-                        public void onStart(){
-
-                        }
-
-                        @Override
-                        public void onUpdate(float completionFraction){
-
-                            if(completionFraction>0.5)
-                            {
-
-                                zoom();
-                            }
-                        }
-
-                        @Override
-                        public void onEnd(){
-
-
-                        }
-                    });
-
+            }
+        });
 
 
     }
 
 
-
-    void setUpAccent()
-    {
-        ImageView fbi=(ImageView)findViewById(R.id.fb_small);
-        ImageView gi=(ImageView)findViewById(R.id.g_small);
-        ImageView mi=(ImageView)findViewById(R.id.m_small);
+    public static String TAG = "Splash";
 
 
-        utl.changeColorDrawable(fbi,R.color.color_splash_accent);
-        utl.changeColorDrawable(gi,R.color.color_splash_accent);
-        utl.changeColorDrawable(mi,R.color.color_splash_accent);
+    void bindViews() {
+        splashView = (SplashView) findViewById(R.id.splash_view);
+        app = (TextView) findViewById(R.id.app);
+        logins = findViewById(R.id.logins);
 
+        image = (ImageView) findViewById(R.id.logo);
+
+        g_login = findViewById(R.id.g_login);
+        m_login = findViewById(R.id.m_login);
+        fb_login = findViewById(R.id.fb_login);
+
+        activity_splash = findViewById(R.id.activity_splash);
+    }
+
+    void initAnims() {
+
+        splashView.splashAndDisappear(new SplashView.ISplashListener() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onUpdate(float completionFraction) {
+
+                if (completionFraction > 0.5) {
+
+                    zoom();
+                }
+            }
+
+            @Override
+            public void onEnd() {
+
+
+            }
+        });
 
 
     }
 
-    public void zoom()
-    {
+
+    void setUpAccent() {
+        ImageView fbi = (ImageView) findViewById(R.id.fb_small);
+        ImageView gi = (ImageView) findViewById(R.id.g_small);
+        ImageView mi = (ImageView) findViewById(R.id.m_small);
+
+
+        utl.ctx = this;
+        utl.changeColorDrawable(fbi, R.color.color_splash_accent);
+        utl.changeColorDrawable(gi, R.color.color_splash_accent);
+        utl.changeColorDrawable(mi, R.color.color_splash_accent);
+
+
+    }
+
+
+    ImageView image;
+
+    public void zoom() {
         Animation animZoomIn = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.zoom_anim);
 
@@ -199,17 +221,26 @@ public class Splash extends AppCompatActivity {
                                             @Override
                                             public void onAnimationEnd(Animation animation) {
 
+                                                startRotation(0,360);
 
-                                                if(utl.getUser()!=null)
-                                                {
+                                             /*   ImageView img = (ImageView) findViewById(R.id.logo);
+                                                RotateAnimation rotateAnimation = new RotateAnimation(30, 90,
+                                                        Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                                                rotateAnimation.setRepeatMode(Animation.REVERSE);
+                                                rotateAnimation.setRepeatCount(1000);
+                                                rotateAnimation.setDuration(5000);
+                                                img.startAnimation(rotateAnimation);
+
+*/
+                                                if (utl.getUser() != null) {
                                                     updateUI(utl.getUser());
                                                     return;
                                                 }
 
                                                 utl.logout();
 
-                                                if(Constants.IS_ANIMATED_BG_SPLASH)
-                                                    utl.animateBackGround(activity_splash,"#FF5722","#009688",true,10000);
+                                                if (Constants.IS_ANIMATED_BG_SPLASH)
+                                                    utl.animateBackGround(activity_splash, "#FF5722", "#009688", true, 10000);
 
                                                 logins.setVisibility(View.VISIBLE);
                                                 logins.setAlpha(0.0f);
@@ -228,12 +259,13 @@ public class Splash extends AppCompatActivity {
         );
         findViewById(R.id.logo).startAnimation(animZoomIn);
 
-        View l=findViewById(R.id.logo);
+        View l = findViewById(R.id.logo);
         l.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
 
-                Toast.makeText(ctx,"Developer : Shivesh Navin \n http://thehoproject.co.nf/", Toast.LENGTH_LONG).show();;
+                Toast.makeText(ctx, "Developer : Shivesh Navin \n http://thehoproject.co.nf/", Toast.LENGTH_LONG).show();
+                ;
                 return false;
             }
         });
@@ -241,6 +273,53 @@ public class Splash extends AppCompatActivity {
     }
 
 
+
+
+
+
+    private Rotate3dAnimation rotation;
+    private StartNextRotate startNext;
+
+    private void startRotation(float start, float end) {
+        // Calculating center point
+        final float centerX = image.getWidth() / 2.0f;
+        final float centerY = image.getHeight() / 2.0f;
+        Log.d(TAG, "centerX="+centerX+", centerY="+centerY);
+        // Create a new 3D rotation with the supplied parameter
+        // The animation listener is used to trigger the next animation
+        //final Rotate3dAnimation rotation =new Rotate3dAnimation(start, end, centerX, centerY, 310.0f, true);
+        //Z axis is scaled to 0
+        rotation =new Rotate3dAnimation(start, end, centerX, centerY, 0f, true);
+        rotation.setDuration(6000);
+        rotation.setFillAfter(true);
+        //rotation.setInterpolator(new AccelerateInterpolator());
+        //Uniform rotation
+        rotation.setInterpolator(new LinearInterpolator());
+        //Monitor settings
+        startNext = new StartNextRotate();
+        rotation.setAnimationListener(startNext);
+        image.startAnimation(rotation);
+    }
+
+private class StartNextRotate implements Animation.AnimationListener {
+
+    public void onAnimationEnd(Animation animation) {
+        // TODO Auto-generated method stub
+        Log.d(TAG, "onAnimationEnd......");
+        image.startAnimation(rotation);
+    }
+
+    public void onAnimationRepeat(Animation animation) {
+        // TODO Auto-generated method stub
+
+    }
+
+    public void onAnimationStart(Animation animation) {
+        // TODO Auto-generated method stub
+
+    }
+
+}
 
 
 
@@ -412,6 +491,10 @@ public class Splash extends AppCompatActivity {
         if(firebaseUser.getDisplayName()!=null||askedForName)
         {
 
+            if(phone!=null)
+            {
+                user.user_phone=phone;
+            }
             register(user);
 
             if(diag!=null)
