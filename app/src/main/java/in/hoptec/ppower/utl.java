@@ -4,6 +4,7 @@ import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.ComponentName;
@@ -19,7 +20,10 @@ import android.os.Build;
 import android.os.CountDownTimer;
 import android.provider.MediaStore;
 import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
 import android.text.Html;
@@ -34,6 +38,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -342,6 +347,17 @@ public class utl {
 
         }
     }
+
+
+    public static void changeColorDrawable(ImageView imageView, @DrawableRes int res) {
+
+        DrawableCompat.setTint(imageView.getDrawable(), ContextCompat.getColor(ctx, res));
+
+
+
+    }
+
+
 
     public static Float dpFromPx(final Context context, final float px) {
         return px / context.getResources().getDisplayMetrics().density;

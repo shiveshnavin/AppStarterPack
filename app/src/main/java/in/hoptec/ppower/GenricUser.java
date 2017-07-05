@@ -27,15 +27,19 @@ public class GenricUser {
 
     public GenricUser(FirebaseUser user)
     {
-        user_name=utl.refineString(user.getEmail(),"");
-        user_fname=user.getDisplayName();
-        user_password=user.getUid();
-        uid=user.getUid();
-        suid=user.getUid();
-        auth=user.getUid();
-        user_email=user.getEmail();
-        user_phone=user.getPhoneNumber();
-        user_image=user.getPhotoUrl().toString();
+        user_name=utl.refineString(""+user.getEmail(),"");
+        user_fname=""+user.getDisplayName();
+        user_password=""+user.getUid();
+        uid=""+user.getUid();
+        suid=""+user.getUid();
+        auth=""+user.getUid();
+        user_email=""+user.getEmail();
+        user_phone=""+user.getPhoneNumber();
+        try {
+            user_image=""+user.getPhotoUrl().toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

@@ -18,6 +18,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.Manifest;
@@ -90,6 +91,7 @@ public class Splash extends AppCompatActivity {
         checkPermission();
         utl.setShared(this);
         bindViews();
+	setUpAccent();
         initAnims();
         initFbLogin();
         initMLogin();
@@ -159,6 +161,23 @@ public class Splash extends AppCompatActivity {
 
                         }
                     });
+
+
+
+    }
+
+
+
+    void setUpAccent()
+    {
+        ImageView fbi=(ImageView)findViewById(R.id.fb_small);
+        ImageView gi=(ImageView)findViewById(R.id.g_small);
+        ImageView mi=(ImageView)findViewById(R.id.m_small);
+
+
+        utl.changeColorDrawable(fbi,R.color.color_splash_accent);
+        utl.changeColorDrawable(gi,R.color.color_splash_accent);
+        utl.changeColorDrawable(mi,R.color.color_splash_accent);
 
 
 
@@ -612,32 +631,65 @@ public class Splash extends AppCompatActivity {
     void loginViaM()
     {
 
-        firebaseUser =utl.getUser();
-        if(firebaseUser !=null)
-        {
-            updateUI(firebaseUser);
-            return;
-        }
+        utl.showDig(true,ctx);
+        AndroidNetworking.get("http://www.thehoproject.co.nf/status.php?action=check_phone_login&app="+
+                URLEncoder.encode(getResources().getString(R.string.app_name))).build()
+                .getAsString(new StringRequestListener() {
+                    @Override
+                    public void onResponse(String response) {
 
-        utl.inputDialog(ctx, "Login Via Phone", "Enter Phone No :",utl.TYPE_PHONE,new utl.InputDialogCallback() {
-            @Override
-            public void onDone(String text) {
+                        utl.showDig(false,ctx);
+                        utl.l(response);
 
-                if(!utl.isValidMobile(text)) {
-                    utl.toast(ctx, "Invalid Phone !");
-                    return;
-                }
+                        if(response.contains("notcool"))
+                        {
+                            utl.snack(act,"Phone Login is Disabled !");
+                            return;
+                        }
+                        firebaseUser =utl.getUser();
+                        if(firebaseUser !=null)
+                        {
+                            updateUI(firebaseUser);
+                            return;
+                        }
 
-                PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                        text,        // Phone number to verify
-                        120,                 // Timeout duration
-                        TimeUnit.SECONDS,   // Unit of timeout
-                        act,               // Activity (for callback binding)
-                        mCallbacks);
+                        utl.inputDialog(ctx, "Login Via Phone", "Enter Phone No :",utl.TYPE_PHONE,new utl.InputDialogCallback() {
+                            @Override
+                            public void onDone(String text) {
+
+                                if(!utl.isValidMobile(text)) {
+                                    utl.toast(ctx, "Invalid Phone !");
+                                    return;
+                                }
+
+                                PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                                        text,        // Phone number to verify
+                                        120,                 // Timeout duration
+                                        TimeUnit.SECONDS,   // Unit of timeout
+                                        act,               // Activity (for callback binding)
+                                        mCallbacks);
 
 
-            }
-        });
+                            }
+                        });
+
+
+
+                    }
+
+                    @Override
+                    public void onError(ANError ANError) {
+
+                        utl.showDig(false,ctx);
+                        utl.l(ANError.getErrorDetail());
+                    }
+                });
+
+
+
+
+
+
 
 
     }
