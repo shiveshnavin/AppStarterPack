@@ -107,13 +107,7 @@ public class Splash extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                utl.inputDialog(ctx, "Enter Phone ", "", utl.TYPE_PHONE, new utl.InputDialogCallback() {
-                    @Override
-                    public void onDone(String text) {
-
                         loginViaG();
-                    }
-                });
 
             }
         });
@@ -127,14 +121,7 @@ public class Splash extends AppCompatActivity {
         fb_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                utl.inputDialog(ctx, "Enter Phone ", "", utl.TYPE_PHONE, new utl.InputDialogCallback() {
-                    @Override
-                    public void onDone(String text) {
-
-                        loginViaFb();
-                    }
-                });
+                loginViaFb();
 
 
             }
@@ -286,7 +273,7 @@ public class Splash extends AppCompatActivity {
         final float centerY = image.getHeight() / 2.0f;
         Log.d(TAG, "centerX="+centerX+", centerY="+centerY);
         // Create a new 3D rotation with the supplied parameter
-        // The animation listener is used to trigger the next animation
+        // The animation  listener is used to trigger the next animation
         //final Rotate3dAnimation rotation =new Rotate3dAnimation(start, end, centerX, centerY, 310.0f, true);
         //Z axis is scaled to 0
         rotation =new Rotate3dAnimation(start, end, centerX, centerY, 0f, true);
