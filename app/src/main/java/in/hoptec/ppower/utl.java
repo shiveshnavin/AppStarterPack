@@ -44,8 +44,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -80,7 +82,7 @@ public class utl {
 
     public static void init(Context ctxx)
     {
-         ctx=ctxx;
+        ctx=ctxx;
     }
 
 
@@ -93,10 +95,10 @@ public class utl {
                 initv, finalv);
         colorAnim.setEvaluator(new ArgbEvaluator());
 
-            if(repeat) {
-                colorAnim.setRepeatMode(ValueAnimator.REVERSE);
-                colorAnim.setRepeatCount(ValueAnimator.INFINITE);
-            }
+        if(repeat) {
+            colorAnim.setRepeatMode(ValueAnimator.REVERSE);
+            colorAnim.setRepeatCount(ValueAnimator.INFINITE);
+        }
 
         colorAnim.setDuration(dur);
         colorAnim.start();
@@ -139,8 +141,8 @@ public class utl {
     public static void fullScreen(Activity act)
     {
         try {
-                act.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                act.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            act.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            act.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -163,13 +165,13 @@ public class utl {
     }
 
 
-    public  static void SlideUP(View view, Context context)
+    public  static void slideUP(View view, Context context)
     {
         view.startAnimation(AnimationUtils.loadAnimation(context,
                 R.anim.slid_up));
     }
 
-    public static void SlideDown(View view, Context context)
+    public static void slideDown(View view, Context context)
     {
         view.startAnimation(AnimationUtils.loadAnimation(context,
                 R.anim.slid_down));
@@ -222,6 +224,10 @@ public class utl {
     }
 
 
+    public static boolean isNull(String is)
+    {
+        return is==null||(""+is).equals("null");
+    }
     public static  boolean isValidMobile(String phone)
     {
         return android.util.Patterns.PHONE.matcher(phone).matches();
@@ -324,9 +330,17 @@ public class utl {
             e.printStackTrace();
         }
 
+        try {
+            if(Splash.mGoogleApiClient!=null)
+                Auth.GoogleSignInApi.signOut(Splash.mGoogleApiClient);
+        } catch (Exception e) {
+
+            utl.l("GoogleApiClient is not connected yet. : Trying to logout");
+        }
+
 
         try {
-                removeUserData();
+            removeUserData();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -349,6 +363,7 @@ public class utl {
     }
 
 
+    @SuppressWarnings("ResourceType")
     public static void changeColorDrawable(ImageView imageView, @DrawableRes int res) {
 
         DrawableCompat.setTint(imageView.getDrawable(), ContextCompat.getColor(ctx, res));
@@ -438,6 +453,7 @@ public class utl {
 
 
 
+
     public static void snack(View rootView,String t)
     {
 
@@ -476,7 +492,7 @@ public class utl {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                 click.done(dialogInterface);
+                click.done(dialogInterface);
 
             }
         });
@@ -533,6 +549,13 @@ public class utl {
 
         return FirebaseAuth.getInstance().getCurrentUser();
 
+    }
+
+    public static String getFCMTOken()
+    {
+
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        return refreshedToken;
     }
 
 
@@ -826,6 +849,91 @@ public class utl {
 
 
 
+
+    public static void logEvent(String title,Object b){
+
+
+        try {
+            String ins=utl.getDateTime();
+
+           //  App.ses.child(utl.refineString( ins,"_")).child("data").setValue((new Gson()).toJson(b).replace("\\\"","\"").replace("\"{","{").replace("}\"","}"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public static String dev()
+    {
+        return "_"+utl.refineString(Build.DEVICE,"_")+"_"+utl.refineString(Build.MANUFACTURER,"_");
+    }
+
+    public static String getRealPathFromUri(Context ctx,Uri uri) {
+        String result = "";
+        String documentID;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            String[] pathParts = uri.getPath().split("/");
+            documentID = pathParts[pathParts.length - 1];
+        } else {
+            String pathSegments[] = uri.getLastPathSegment().split(":");
+            documentID = pathSegments[pathSegments.length - 1];
+        }
+        String mediaPath = MediaStore.Images.Media.DATA;
+        Cursor imageCursor = ctx.getContentResolver().query(uri, new String[]{mediaPath}, MediaStore.Images.Media._ID + "=" + documentID, null, null);
+        if (imageCursor.moveToFirst()) {
+            result = imageCursor.getString(imageCursor.getColumnIndex(mediaPath));
+        }
+        return result;
+    }
+
+
+
+    public  static void setLiked(String vid)
+    {        createLike();
+
+        FileOperations fop=new FileOperations();
+        String ol=""+fop.read(Constants.localDataFile());
+        ol=ol+","+vid;
+
+        fop.write(Constants.localDataFile(),ol);
+
+
+    }
+
+    public static void unLike(String vid)
+    {
+        createLike();
+        FileOperations fop=new FileOperations();
+        String ol=fop.read(Constants.localDataFile());
+        ol=ol+","+vid;
+        ol=ol.replace(vid,"");
+
+        fop.write(Constants.localDataFile(),ol);
+
+
+    }
+
+    public static void createLike()
+    {
+
+        FileOperations fop=new FileOperations();
+        if(new File(Constants.localDataFile()).exists());
+        else
+            fop.write(Constants.localDataFile(),"");
+    }
+
+    public  static boolean isLiked(String vid)
+    {        createLike();
+
+        FileOperations fop=new FileOperations();
+        String ol=""+fop.read(Constants.localDataFile());
+        if(ol.contains(vid))
+            return true;
+        else
+            return false;
+
+    }
 
 
 

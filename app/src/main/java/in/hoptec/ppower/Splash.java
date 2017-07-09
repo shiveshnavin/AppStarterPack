@@ -89,7 +89,7 @@ public class Splash extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ctx = this;
         act = this;
-        //  utl.fullScreen(act);
+          utl.fullScreen(act);
         FacebookSdk.sdkInitialize(getApplicationContext());
         mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_splash);
@@ -208,7 +208,7 @@ public class Splash extends AppCompatActivity {
                                             @Override
                                             public void onAnimationEnd(Animation animation) {
 
-                                                startRotation(0,360);
+                                               // startRotation(0,360);
 
                                              /*   ImageView img = (ImageView) findViewById(R.id.logo);
                                                 RotateAnimation rotateAnimation = new RotateAnimation(30, 90,
@@ -228,12 +228,23 @@ public class Splash extends AppCompatActivity {
 
                                                 if (Constants.IS_ANIMATED_BG_SPLASH)
                                                     utl.animateBackGround(activity_splash, "#FF5722", "#009688", true, 10000);
-
+/*
                                                 logins.setVisibility(View.VISIBLE);
                                                 logins.setAlpha(0.0f);
                                                 logins.animate()
                                                         .translationY(logins.getHeight())
                                                         .alpha(1.0f);
+
+                                                */
+
+
+                                                logins.setVisibility(View.VISIBLE);
+                                                //logins.setAlpha(1f);
+                                             /*   logins.animate()
+                                                        .translationY(logins.getHeight())
+                                                        .alpha(1.0f);
+*/
+                                                utl.slideUP(logins,ctx);
 
 
                                             }
@@ -530,7 +541,7 @@ private class StartNextRotate implements Animation.AnimationListener {
 
     //************************G LOGIN***********************/
 
-    GoogleApiClient mGoogleApiClient;
+    public static GoogleApiClient mGoogleApiClient;
     public int RC_SIGN_IN=99;
     void initGLogin()
     {

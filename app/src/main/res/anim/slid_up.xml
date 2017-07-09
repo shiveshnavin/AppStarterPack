@@ -5,12 +5,13 @@
         android:duration="1200"
         android:fromYDelta="100%"
         android:toYDelta="0" />
+        />
+
 
     <alpha
         android:fromAlpha="0"
-        android:toAlpha="100"
+        android:toAlpha="1"
         />
-    <scale
-        android:fromXScale="10"
-        android:toXScale="100"/>
+
+
 </set>
