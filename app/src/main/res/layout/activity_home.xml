@@ -26,7 +26,7 @@
         app:font="LearningCurve"
         android:textSize="25dp"
         android:gravity="center"
-        android:text="UNDER CONSTRUCTION"
+        android:text="DEMO LIMITED \nCONTENT"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/sss"
