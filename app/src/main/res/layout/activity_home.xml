@@ -23,7 +23,7 @@
         android:layout_height="wrap_content" />
 
     <com.daniribalbert.customfontlib.views.CustomFontTextView
-        app:font="LearningCurve"
+        app:font="font_bold"
         android:textSize="25dp"
         android:gravity="center"
         android:text="DEMO LIMITED \nCONTENT"

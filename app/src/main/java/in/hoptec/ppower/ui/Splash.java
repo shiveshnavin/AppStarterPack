@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -62,25 +63,26 @@ import org.json.JSONObject;
 import java.net.URLEncoder;
 import java.util.concurrent.TimeUnit;
 
+import in.hoptec.ppower.App;
+import in.hoptec.ppower.BaseActivity;
+import in.hoptec.ppower.R;
 import in.hoptec.ppower.data.Constants;
 import in.hoptec.ppower.data.GenricUser;
-import in.hoptec.ppower.R;
 import in.hoptec.ppower.utils.Rotate3dAnimation;
 import in.hoptec.ppower.utl;
-import in.hoptec.ppower.views.SplashView;
 
 import static in.hoptec.ppower.App.firebaseUser;
 import static in.hoptec.ppower.App.mAuth;
 import static in.hoptec.ppower.App.mGoogleApiClient;
 
-public class Splash extends AppCompatActivity {
+public class Splash extends BaseActivity {
 
     private Context ctx;
     private Activity act;
-    private SplashView splashView;
     private View logins;
     private View activity_splash;
     private TextView app;
+
 
     String phone = null;
 
@@ -91,13 +93,14 @@ public class Splash extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ctx = this;
         act = this;
-          utl.fullScreen(act);
+        utl.fullScreen(act);
         FacebookSdk.sdkInitialize(getApplicationContext());
         mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_splash);
 
         checkPermission();
         utl.setShared(this);
+
         bindViews();
         setUpAccent();
         initAnims();
@@ -109,7 +112,7 @@ public class Splash extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                        loginViaG();
+                loginViaG();
 
             }
         });
@@ -123,6 +126,7 @@ public class Splash extends AppCompatActivity {
         fb_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 loginViaFb();
 
 
@@ -137,11 +141,11 @@ public class Splash extends AppCompatActivity {
 
 
     void bindViews() {
-        splashView = (SplashView) findViewById(R.id.splash_view);
         app = (TextView) findViewById(R.id.app);
         logins = findViewById(R.id.logins);
 
         image = (ImageView) findViewById(R.id.logo);
+        app_n = (ImageView) findViewById(R.id.app_n);
 
         g_login = findViewById(R.id.g_login);
         m_login = findViewById(R.id.m_login);
@@ -152,28 +156,24 @@ public class Splash extends AppCompatActivity {
 
     void initAnims() {
 
-        splashView.splashAndDisappear(new SplashView.ISplashListener() {
+        image.postDelayed(new Runnable() {
             @Override
-            public void onStart() {
+            public void run() {
 
+                utl.animate_avd(image);
+                utl.animate_avd(app_n);
+                findViewById(R.id.icon).setVisibility(View.VISIBLE);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+
+                        init();
+                    }
+                },2500);
             }
-
-            @Override
-            public void onUpdate(float completionFraction) {
-
-                if (completionFraction > 0.5) {
-
-                    zoom();
-                }
-            }
-
-            @Override
-            public void onEnd() {
-
-
-            }
-        });
-
+        },200);
 
     }
 
@@ -193,7 +193,7 @@ public class Splash extends AppCompatActivity {
     }
 
 
-    ImageView image;
+    ImageView image,app_n;
 
     public void zoom() {
         Animation animZoomIn = AnimationUtils.loadAnimation(getApplicationContext(),
@@ -209,44 +209,6 @@ public class Splash extends AppCompatActivity {
 
                                             @Override
                                             public void onAnimationEnd(Animation animation) {
-
-                                               // startRotation(0,360);
-
-                                             /*   ImageView img = (ImageView) findViewById(R.id.logo);
-                                                RotateAnimation rotateAnimation = new RotateAnimation(30, 90,
-                                                        Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                                                rotateAnimation.setRepeatMode(Animation.REVERSE);
-                                                rotateAnimation.setRepeatCount(1000);
-                                                rotateAnimation.setDuration(5000);
-                                                img.startAnimation(rotateAnimation);
-
-*/
-                                                if (utl.getUser() != null) {
-                                                    updateUI(utl.getUser());
-                                                    return;
-                                                }
-
-                                                utl.logout();
-
-                                                if (Constants.IS_ANIMATED_BG_SPLASH)
-                                                    utl.animateBackGround(activity_splash, "#FF5722", "#009688", true, 10000);
-/*
-                                                logins.setVisibility(View.VISIBLE);
-                                                logins.setAlpha(0.0f);
-                                                logins.animate()
-                                                        .translationY(logins.getHeight())
-                                                        .alpha(1.0f);
-
-                                                */
-
-
-                                                logins.setVisibility(View.VISIBLE);
-                                                //logins.setAlpha(1f);
-                                             /*   logins.animate()
-                                                        .translationY(logins.getHeight())
-                                                        .alpha(1.0f);
-*/
-                                                utl.slideUP(logins,ctx);
 
 
                                             }
@@ -265,7 +227,7 @@ public class Splash extends AppCompatActivity {
             public boolean onLongClick(View view) {
 
                 Toast.makeText(ctx, "Developer : Shivesh Navin \n http://thehoproject.co.nf/", Toast.LENGTH_LONG).show();
-                ;
+
                 return false;
             }
         });
@@ -273,8 +235,60 @@ public class Splash extends AppCompatActivity {
     }
 
 
+    public void startHome()
+    {
 
 
+
+
+    }
+
+    public void init()
+    {
+
+        // startRotation(0,360);
+
+                                             /*   ImageView img = (ImageView) findViewById(R.id.logo);
+                                                RotateAnimation rotateAnimation = new RotateAnimation(30, 90,
+                                                        Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                                                rotateAnimation.setRepeatMode(Animation.REVERSE);
+                                                rotateAnimation.setRepeatCount(1000);
+                                                rotateAnimation.setDuration(5000);
+                                                img.startAnimation(rotateAnimation);
+
+*/
+        if (utl.getUser() != null) {
+            updateUI(utl.getUser());
+            return;
+        }
+
+        utl.logout();
+
+        if (Constants.IS_ANIMATED_BG_SPLASH)
+            utl.animateBackGround(activity_splash, "#FF5722", "#009688", true, 10000);
+/*
+                                                logins.setVisibility(View.VISIBLE);
+                                                logins.setAlpha(0.0f);
+                                                logins.animate()
+                                                        .translationY(logins.getHeight())
+                                                        .alpha(1.0f);
+
+                                                */
+
+
+        logins.setVisibility(View.VISIBLE);
+        //logins.setAlpha(1f);
+                                             /*   logins.animate()
+                                                        .translationY(logins.getHeight())
+                                                        .alpha(1.0f);
+*/
+        utl.slideUP(logins,ctx);
+
+
+
+
+
+    }
 
 
     private Rotate3dAnimation rotation;
@@ -301,25 +315,25 @@ public class Splash extends AppCompatActivity {
         image.startAnimation(rotation);
     }
 
-private class StartNextRotate implements Animation.AnimationListener {
+    private class StartNextRotate implements Animation.AnimationListener {
 
-    public void onAnimationEnd(Animation animation) {
-        // TODO Auto-generated method stub
-        Log.d(TAG, "onAnimationEnd......");
-        image.startAnimation(rotation);
+        public void onAnimationEnd(Animation animation) {
+            // TODO Auto-generated method stub
+            Log.d(TAG, "onAnimationEnd......");
+            image.startAnimation(rotation);
+        }
+
+        public void onAnimationRepeat(Animation animation) {
+            // TODO Auto-generated method stub
+
+        }
+
+        public void onAnimationStart(Animation animation) {
+            // TODO Auto-generated method stub
+
+        }
+
     }
-
-    public void onAnimationRepeat(Animation animation) {
-        // TODO Auto-generated method stub
-
-    }
-
-    public void onAnimationStart(Animation animation) {
-        // TODO Auto-generated method stub
-
-    }
-
-}
 
 
 
@@ -334,26 +348,26 @@ private class StartNextRotate implements Animation.AnimationListener {
         callbackManager = CallbackManager.Factory.create();
         loginButton= (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions("email", "public_profile");
-            loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-                @Override
-                public void onSuccess(LoginResult loginResult) {
-                    utl.l(TAG, "facebook:onSuccess:" + loginResult);
-                    handleFacebookAccessToken(loginResult.getAccessToken());
-                }
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                utl.l(TAG, "facebook:onSuccess:" + loginResult);
+                handleFacebookAccessToken(loginResult.getAccessToken());
+            }
 
-                @Override
-                public void onCancel() {
-                    utl.l(TAG, "facebook:onCancel");
+            @Override
+            public void onCancel() {
+                utl.l(TAG, "facebook:onCancel");
 
-                }
+            }
 
-                @Override
-                public void onError(FacebookException error) {
-                    utl.l(TAG, "facebook:onError" );
-                    error.printStackTrace();;
+            @Override
+            public void onError(FacebookException error) {
+                utl.l(TAG, "facebook:onError" );
+                error.printStackTrace();;
 
-                }
-            });
+            }
+        });
 
 
     }
@@ -362,26 +376,26 @@ private class StartNextRotate implements Animation.AnimationListener {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-            mAuth.signInWithCredential(credential)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
 
-                                Log.d(TAG, "signInWithCredential:success");
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                updateUI(user);
-                            } else {
+                            Log.d(TAG, "signInWithCredential:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
 
-                                Log.w(TAG, "signInWithCredential:failure", task.getException());
-                                Toast.makeText(Splash.this, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-                                updateUI(null);
-                            }
-
-
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            Toast.makeText(Splash.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            updateUI(null);
                         }
-                    });
+
+
+                    }
+                });
     }
 
 
@@ -399,7 +413,7 @@ private class StartNextRotate implements Animation.AnimationListener {
         super.onStart();
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
-     //   updateUI(firebaseUser);
+        //   updateUI(firebaseUser);
     }
 
     @Override
@@ -441,8 +455,8 @@ private class StartNextRotate implements Animation.AnimationListener {
 
         for (UserInfo users: FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
 
-              System.out.println("User is signed in with  "+users.getProviderId());
-              provider=users.getProviderId();
+            System.out.println("User is signed in with  "+users.getProviderId());
+            provider=users.getProviderId();
             if(provider.contains("facebook")||provider.contains("google"))
             {
                 break;
@@ -462,18 +476,18 @@ private class StartNextRotate implements Animation.AnimationListener {
                         diag.dismiss();
 
                 if(!askedForName)
-                diag=utl.inputDialog(ctx, "Login Via Phone", "Enter Your Name", utl.TYPE_DEF,new utl.InputDialogCallback() {
-                    @Override
-                    public void onDone(String text) {
+                    diag=utl.inputDialog(ctx, "Login Via Phone", "Enter Your Name", utl.TYPE_DEF,new utl.InputDialogCallback() {
+                        @Override
+                        public void onDone(String text) {
 
-                        askedForName=true;
-                        UserProfileChangeRequest request=new UserProfileChangeRequest.Builder().setDisplayName(text).build();
-                        firebaseUser.updateProfile(request);
+                            askedForName=true;
+                            UserProfileChangeRequest request=new UserProfileChangeRequest.Builder().setDisplayName(text).build();
+                            firebaseUser.updateProfile(request);
 
-                        updateUI(firebaseUser);
+                            updateUI(firebaseUser);
 
-                    }
-                });
+                        }
+                    });
 
 
             }
@@ -518,17 +532,21 @@ private class StartNextRotate implements Animation.AnimationListener {
                 v=m_login;
             }
 
+            startActivity(intent);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            v=app_n;
+
+          /*  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 ActivityOptionsCompat options = ActivityOptionsCompat.
                         makeSceneTransitionAnimation(act, v, getString(R.string.activity_image_trans));
                 startActivity(intent, options.toBundle());
+
             }
             else {
                 startActivity(intent);
-            }
+             }*/
 
-            //finish();
+            finish();
 
 
 
@@ -549,7 +567,7 @@ private class StartNextRotate implements Animation.AnimationListener {
 
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-		.requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
@@ -745,6 +763,20 @@ private class StartNextRotate implements Animation.AnimationListener {
                                     return;
                                 }
 
+                                if(!text.contains("+91"))
+                                {
+                                    if(text.startsWith("91")&&text.length()>10)
+                                    {
+                                        text="+"+text;
+                                    }
+                                    else {
+
+                                        text="+91"+text;
+                                    }
+                                }
+
+                                utl.e("Phone : ",text);
+
                                 PhoneAuthProvider.getInstance().verifyPhoneNumber(
                                         text,        // Phone number to verify
                                         120,                 // Timeout duration
@@ -767,6 +799,7 @@ private class StartNextRotate implements Animation.AnimationListener {
                         utl.l(ANError.getErrorDetail());
                     }
                 });
+
 
 
 
@@ -807,12 +840,12 @@ private class StartNextRotate implements Animation.AnimationListener {
                         if(response.contains("error"))
                         {
 
-                           // emailLogin(false,true);
+                            // emailLogin(false,true);
 
                         }
                         else {
 
-                           // startlogin(tmpusr.user_email,tmpusr.suid,1);
+                            // startlogin(tmpusr.user_email,tmpusr.suid,1);
                         }
 
                     }
@@ -820,7 +853,7 @@ private class StartNextRotate implements Animation.AnimationListener {
                     @Override
                     public void onError(ANError ANError) {
 
-                        utl.e("err 566"+ANError.getErrorBody());
+                        utl.e("err 893"+ANError.getErrorBody());
                     }
                 });
 
@@ -1064,7 +1097,7 @@ private class StartNextRotate implements Animation.AnimationListener {
         switch (requestCode) {
             case 1: {
 
-                 if (grantResults.length > 0
+                if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
 

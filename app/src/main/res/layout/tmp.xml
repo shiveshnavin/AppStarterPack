@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
 
         <com.daniribalbert.customfontlib.views.CustomFontTextView
-            app:font="Avenir-Medium"
+            app:font="font_regular"
             android:padding="10dp"
             android:id="@+id/app"
             android:textColor="@color/black"
@@ -53,7 +53,7 @@
 
 
                 <com.daniribalbert.customfontlib.views.CustomFontTextView
-                    app:font="Avenir-Medium"
+                    app:font="font_regular"
                     android:layout_weight="0.6"
                     android:padding="10dp"
                      android:textColor="@color/black"

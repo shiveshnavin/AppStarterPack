@@ -21,7 +21,7 @@
         android:layout_height="40dp" />
 
     <com.daniribalbert.customfontlib.views.CustomFontTextView
-        app:font="avenir-next-regular"
+        app:font="font_bold"
         android:layout_gravity="center"
         android:gravity="center"
         android:text="Choose Login"
@@ -162,7 +162,7 @@
                     android:layout_height="55dp" />
 
                 <com.daniribalbert.customfontlib.views.CustomFontTextView
-                    app:font="avenir-next-regular"
+                    app:font="font_thin"
                     android:layout_gravity="right"
                     android:gravity="right"
                     android:id="@+id/register"
