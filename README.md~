@@ -6,5 +6,10 @@ A Android App starter pack with Google , FB , Phone using Firebase Login and Ani
 ![Alt text](/screenshots/s3.png?raw=true "Animated Logo") 
 ![Alt text](/screenshots/s4.png?raw=true "Phone Login")
 
-
+<p align="center">
+  <img width="460" height="300" src="/screenshots/s2.png?raw=true">
+  <img width="460" height="300" src="/screenshots/s2.png?raw=true">
+  <img width="460" height="300" src="/screenshots/s2.png?raw=true">
+  <img width="460" height="300" src=/screenshots/s2.png?raw=true">
+</p>
 --ADD google services json file and fb id for login !
