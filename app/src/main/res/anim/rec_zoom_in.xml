@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android" android:fillAfter="true" >
+    <scale
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:duration="@integer/rec_zoom_dur"
+        android:fromXScale="@dimen/zoom_to"
+        android:fromYScale="@dimen/zoom_to"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:toXScale="@dimen/zoom_from"
+        android:toYScale="@dimen/zoom_from" >
+    </scale>
+
+
+</set>

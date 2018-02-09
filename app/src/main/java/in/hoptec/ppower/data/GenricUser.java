@@ -1,7 +1,9 @@
-package in.hoptec.ppower;
+package in.hoptec.ppower.data;
 
 import com.firebase.client.Firebase;
 import com.google.firebase.auth.FirebaseUser;
+
+import in.hoptec.ppower.utl;
 
 /**
  * Created by shivesh on 29/6/17.
@@ -27,7 +29,7 @@ public class GenricUser {
 
     public GenricUser(FirebaseUser user)
     {
-        user_name=utl.refineString(""+user.getEmail(),"");
+        user_name= utl.refineString(""+user.getEmail(),"");
         user_fname=""+user.getDisplayName();
         user_password=""+user.getUid();
         uid=""+user.getUid();

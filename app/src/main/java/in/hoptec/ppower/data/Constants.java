@@ -1,9 +1,12 @@
-package in.hoptec.ppower;
+package in.hoptec.ppower.data;
 
 import android.content.Context;
 import android.os.Environment;
 
 import java.io.File;
+
+import in.hoptec.ppower.R;
+import in.hoptec.ppower.utl;
 
 /**
  * Created by shivesh on 28/6/17.
@@ -18,6 +21,10 @@ public class Constants {
     public static String API_USER_REG_GET="/createuser.php";
     public static String API_USER_LOGIN_GET="/login.php";
 
+
+
+    public static String INTENT_FILTER_LOCATION_UPDATE="INTENT_FILTER_LOCATION_UPDATE";
+    public static String LBM_EVENT_LOCATION_UPDATE="LBM_EVENT_LOCATION_UPDATE";
 
 
     public static boolean IS_ANIMATED_BG_SPLASH=false;

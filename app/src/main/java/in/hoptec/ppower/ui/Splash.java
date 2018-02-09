@@ -1,4 +1,4 @@
-package in.hoptec.ppower;
+package in.hoptec.ppower.ui;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -63,10 +62,16 @@ import org.json.JSONObject;
 import java.net.URLEncoder;
 import java.util.concurrent.TimeUnit;
 
+import in.hoptec.ppower.data.Constants;
+import in.hoptec.ppower.data.GenricUser;
+import in.hoptec.ppower.R;
 import in.hoptec.ppower.utils.Rotate3dAnimation;
+import in.hoptec.ppower.utl;
 import in.hoptec.ppower.views.SplashView;
 
-import static in.hoptec.ppower.utl.TAG;
+import static in.hoptec.ppower.App.firebaseUser;
+import static in.hoptec.ppower.App.mAuth;
+import static in.hoptec.ppower.App.mGoogleApiClient;
 
 public class Splash extends AppCompatActivity {
 
@@ -76,9 +81,6 @@ public class Splash extends AppCompatActivity {
     private View logins;
     private View activity_splash;
     private TextView app;
-    FirebaseUser firebaseUser;
-
-    private FirebaseAuth mAuth;
 
     String phone = null;
 
@@ -541,7 +543,6 @@ private class StartNextRotate implements Animation.AnimationListener {
 
     //************************G LOGIN***********************/
 
-    public static GoogleApiClient mGoogleApiClient;
     public int RC_SIGN_IN=99;
     void initGLogin()
     {

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer name="spl_dur">1500</integer>
+    <integer name="spl_dur_ttl">3500</integer>
+
+
+    <integer name="rec_zoom_dur">200</integer>
+    <integer name="fr_trans_dur">500</integer>
+    <integer name="action_dur">600</integer>
+
+
+
+
+</resources>

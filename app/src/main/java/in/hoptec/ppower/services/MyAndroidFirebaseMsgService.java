@@ -4,38 +4,23 @@ package in.hoptec.ppower.services;
  * Created by shivesh on 21/2/17.
  */
 
-import android.app.Activity;
-import android.app.ActivityManager;
-import android.app.KeyguardManager;
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Handler;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.List;
 
 
-import in.hoptec.ppower.Home;
+import in.hoptec.ppower.ui.Home;
 import in.hoptec.ppower.R;
 import in.hoptec.ppower.utils.NotificationExtras;
 import in.hoptec.ppower.utl;
-
-import static android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND;
-import static android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE;
 
 public class MyAndroidFirebaseMsgService extends FirebaseMessagingService {
 

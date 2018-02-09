@@ -11,5 +11,12 @@
 
 
     <dimen name="rounded_corner_rad">30dp</dimen>
+    <dimen name="app_bar_height">200dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+
+
+    <item name="zoom_from" format="float" type="dimen">0.90</item>
+    <item name="zoom_to" format="float" type="dimen">1.0</item>
 
 </resources>

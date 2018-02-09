@@ -4,8 +4,6 @@ package in.hoptec.ppower.utils; /**
 
 
 import android.app.Notification;
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.app.NotificationCompat;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
